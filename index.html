@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Future Together</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #333;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 35px 25px;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      margin: 20px 0;
+    }
+
+    h1 {
+      color: #1e3c72;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    h2 {
+      color: #1e3c72;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #444;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .highlight {
+      color: #d9534f;
+      font-weight: bold;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      position: relative;
+      min-height: 90px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.2s ease, background-color 0.2s;
+    }
+
+    #yes-btn {
+      background-color: #28a745;
+      color: white;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+      z-index: 10;
+    }
+
+    #no-btn {
+      background-color: #dc3545;
+      color: white;
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+      position: absolute;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .heart-icon {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      animation: pulse 1.2s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.15); }
+    }
+
+    /* Date Planning Styles */
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      color: #1e3c72;
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    input[type="date"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 2px solid #2a5298;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    input[type="date"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #28a745;
+      box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .theme-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .theme-btn {
+      background-color: #f0f0f0;
+      color: #333;
+      border: 2px solid #2a5298;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    .theme-btn:hover {
+      background-color: #2a5298;
+      color: white;
+    }
+
+    .theme-btn.selected {
+      background-color: #28a745;
+      color: white;
+      border-color: #28a745;
+    }
+
+    .submit-btn {
+      background-color: #28a745;
+      color: white;
+      padding: 12px 30px;
+      margin-top: 20px;
+      width: 100%;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+    }
+
+    .submit-btn:hover {
+      transform: scale(1.05);
+      background-color: #218838;
+    }
+
+    .button-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .button-row button {
+      flex: 1;
+    }
+
+    .continue-btn {
+      background-color: #2a5298;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .continue-btn:hover {
+      background-color: #1e3c72;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Question Section -->
+    <div id="ask-screen">
+      <h1>Don't Give Up On Us Yet ⚖️❤️</h1>
+      <p>
+        I know you are worried about where we are heading. But clearing the judiciary or reaching any goal means <span class="highlight">nothing</span> to me if you aren't standing next to me at the end of it. 
+        <br><br>
+        Can we please reset, trust the process, and build this future together?
+      </p>
+
+      <div class="btn-container">
+        <button id="yes-btn" onclick="acceptFuture()">Yes, let's build our future</button>
+        <button id="no-btn" onmouseover="dodgeNo()" onclick="dodgeNo()" ontouchstart="dodgeNo()">No, I don't see it</button>
+      </div>
+    </div>
+
+    <!-- First Success Screen -->
+    <div id="success-screen" class="hidden">
+      <div class="heart-icon">⚖️❤️</div>
+      <h1>I Promise You</h1>
+      <p>
+        Thank you for trusting me. I won't let you down. Every bit of hard work I put in from today is for <strong>us</strong>. Let's talk soon!
+      </p>
+      <button class="continue-btn" onclick="proceedToDate()">Continue</button>
+    </div>
+
+    <!-- Date Planning Section -->
+    <div id="date-screen" class="hidden">
+      <h2>Let's Plan Our Date 💕</h2>
+      <p>Help me make this perfect for you</p>
+
+      <!-- Date Selection -->
+      <div class="form-group">
+        <label for="date-picker">When would you like to go out? (Sept 11-15)</label>
+        <input type="date" id="date-picker" required>
+      </div>
+
+      <!-- Theme Selection -->
+      <div class="form-group">
+        <label>What kind of vibe do you prefer?</label>
+        <div class="theme-options">
+          <button type="button" class="theme-btn" onclick="selectTheme('restaurant')">🍽️ Restaurant - Dinner Date</button>
+          <button type="button" class="theme-btn" onclick="selectTheme('bar')">🍹 Bar - Cocktails & Drinks</button>
+          <button type="button" class="theme-btn" onclick="selectTheme('cafe')">☕ Café - Coffee & Chat</button>
+          <button type="button" class="theme-btn" onclick="selectTheme('adventure')">🎉 Adventure - Fun Activity</button>
+        </div>
+        <input type="hidden" id="selected-theme" value="">
+      </div>
+
+      <!-- Special Requests -->
+      <div class="form-group">
+        <label for="requests">Is there anything special you'd like for yourself? (Gifts, flowers, songs, anything!)</label>
+        <textarea id="requests" placeholder="Tell me what would make you happy..."></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="button-row">
+        <button onclick="submitDate()" class="submit-btn">✨ Plan Our Date</button>
+      </div>
+    </div>
+
+    <!-- Final Confirmation Screen -->
+    <div id="final-screen" class="hidden">
+      <div class="heart-icon">💑</div>
+      <h1>It's a Date! 🎉</h1>
+      <p id="confirmation-text"></p>
+      <p style="margin-top: 20px; font-size: 0.95rem; color: #28a745;">
+        <strong>You mean the world to me. Can't wait to see you!</strong>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    let yesScale = 1;
+    let selectedTheme = "";
+
+    function dodgeNo() {
+      const noBtn = document.getElementById('no-btn');
+      const yesBtn = document.getElementById('yes-btn');
+
+      // Move No button randomly around screen
+      const x = (Math.random() - 0.5) * 260;
+      const y = (Math.random() - 0.5) * 200;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Make Yes button bigger on every attempt
+      yesScale += 0.3;
+      yesBtn.style.transform = `scale(${yesScale})`;
+    }
+
+    function acceptFuture() {
+      document.getElementById('ask-screen').classList.add('hidden');
+      document.getElementById('success-screen').classList.remove('hidden');
+    }
+
+    function proceedToDate() {
+      document.getElementById('success-screen').classList.add('hidden');
+      document.getElementById('date-screen').classList.remove('hidden');
+      
+      // Set date range to September 11-15, 2026
+      const startDate = new Date(2026, 8, 11); // September 11
+      const endDate = new Date(2026, 8, 15);   // September 15
+      
+      const minDate = startDate.toISOString().split('T')[0];
+      const maxDate = endDate.toISOString().split('T')[0];
+      
+      document.getElementById('date-picker').setAttribute('min', minDate);
+      document.getElementById('date-picker').setAttribute('max', maxDate);
+    }
+
+    function selectTheme(theme) {
+      // Remove selection from all buttons
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      // Add selection to clicked button
+      event.target.classList.add('selected');
+      selectedTheme = theme;
+      document.getElementById('selected-theme').value = theme;
+    }
+
+    function submitDate() {
+      const dateValue = document.getElementById('date-picker').value;
+      const requests = document.getElementById('requests').value;
+
+      if (!dateValue) {
+        alert('Please select a date between Sept 11-15! 📅');
+        return;
+      }
+
+      if (!selectedTheme) {
+        alert('Please choose a date theme! 🎯');
+        return;
+      }
+
+      // Format the date
+      const dateObj = new Date(dateValue + 'T00:00:00');
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = dateObj.toLocaleDateString('en-US', options);
+
+      // Get theme emoji and name
+      const themeMap = {
+        'restaurant': '🍽️ at a beautiful restaurant',
+        'bar': '🍹 at a cozy bar',
+        'cafe': '☕ at a charming café',
+        'adventure': '🎉 for an exciting adventure'
+      };
+
+      let confirmationText = `<strong>Locked in for ${formattedDate}!</strong><br><br>`;
+      confirmationText += `Let's have a date ${themeMap[selectedTheme]} <br><br>`;
+      
+      if (requests.trim()) {
+        confirmationText += `<strong>Special requests:</strong><br>"${requests}"<br><br>`;
+        confirmationText += `I got you! 💝`;
+      } else {
+        confirmationText += `I'll make it unforgettable! 💝`;
+      }
+
+      document.getElementById('confirmation-text').innerHTML = confirmationText;
+      
+      // Switch to final screen
+      document.getElementById('date-screen').classList.add('hidden');
+      document.getElementById('final-screen').classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
